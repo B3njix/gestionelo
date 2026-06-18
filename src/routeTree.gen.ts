@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as EventosRouteImport } from './routes/eventos'
+import { Route as CotizacionesRouteImport } from './routes/cotizaciones'
 import { Route as ClientesRouteImport } from './routes/clientes'
 import { Route as CatalogoRouteImport } from './routes/catalogo'
 import { Route as IndexRouteImport } from './routes/index'
@@ -19,6 +20,11 @@ import { Route as EventosNuevoRouteImport } from './routes/eventos.nuevo'
 const EventosRoute = EventosRouteImport.update({
   id: '/eventos',
   path: '/eventos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CotizacionesRoute = CotizacionesRouteImport.update({
+  id: '/cotizaciones',
+  path: '/cotizaciones',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ClientesRoute = ClientesRouteImport.update({
@@ -51,6 +57,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/catalogo': typeof CatalogoRoute
   '/clientes': typeof ClientesRoute
+  '/cotizaciones': typeof CotizacionesRoute
   '/eventos': typeof EventosRouteWithChildren
   '/eventos/nuevo': typeof EventosNuevoRoute
   '/eventos/': typeof EventosIndexRoute
@@ -59,6 +66,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/catalogo': typeof CatalogoRoute
   '/clientes': typeof ClientesRoute
+  '/cotizaciones': typeof CotizacionesRoute
   '/eventos/nuevo': typeof EventosNuevoRoute
   '/eventos': typeof EventosIndexRoute
 }
@@ -67,6 +75,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/catalogo': typeof CatalogoRoute
   '/clientes': typeof ClientesRoute
+  '/cotizaciones': typeof CotizacionesRoute
   '/eventos': typeof EventosRouteWithChildren
   '/eventos/nuevo': typeof EventosNuevoRoute
   '/eventos/': typeof EventosIndexRoute
@@ -77,16 +86,24 @@ export interface FileRouteTypes {
     | '/'
     | '/catalogo'
     | '/clientes'
+    | '/cotizaciones'
     | '/eventos'
     | '/eventos/nuevo'
     | '/eventos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/catalogo' | '/clientes' | '/eventos/nuevo' | '/eventos'
+  to:
+    | '/'
+    | '/catalogo'
+    | '/clientes'
+    | '/cotizaciones'
+    | '/eventos/nuevo'
+    | '/eventos'
   id:
     | '__root__'
     | '/'
     | '/catalogo'
     | '/clientes'
+    | '/cotizaciones'
     | '/eventos'
     | '/eventos/nuevo'
     | '/eventos/'
@@ -96,6 +113,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CatalogoRoute: typeof CatalogoRoute
   ClientesRoute: typeof ClientesRoute
+  CotizacionesRoute: typeof CotizacionesRoute
   EventosRoute: typeof EventosRouteWithChildren
 }
 
@@ -106,6 +124,13 @@ declare module '@tanstack/react-router' {
       path: '/eventos'
       fullPath: '/eventos'
       preLoaderRoute: typeof EventosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cotizaciones': {
+      id: '/cotizaciones'
+      path: '/cotizaciones'
+      fullPath: '/cotizaciones'
+      preLoaderRoute: typeof CotizacionesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/clientes': {
@@ -163,6 +188,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CatalogoRoute: CatalogoRoute,
   ClientesRoute: ClientesRoute,
+  CotizacionesRoute: CotizacionesRoute,
   EventosRoute: EventosRouteWithChildren,
 }
 export const routeTree = rootRouteImport
