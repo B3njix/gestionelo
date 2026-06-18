@@ -13,6 +13,7 @@ import { Route as EventosRouteImport } from './routes/eventos'
 import { Route as ClientesRouteImport } from './routes/clientes'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as EventosIndexRouteImport } from './routes/eventos.index'
+import { Route as EventosNuevoRouteImport } from './routes/eventos.nuevo'
 
 const EventosRoute = EventosRouteImport.update({
   id: '/eventos',
@@ -34,16 +35,23 @@ const EventosIndexRoute = EventosIndexRouteImport.update({
   path: '/',
   getParentRoute: () => EventosRoute,
 } as any)
+const EventosNuevoRoute = EventosNuevoRouteImport.update({
+  id: '/nuevo',
+  path: '/nuevo',
+  getParentRoute: () => EventosRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/clientes': typeof ClientesRoute
   '/eventos': typeof EventosRouteWithChildren
+  '/eventos/nuevo': typeof EventosNuevoRoute
   '/eventos/': typeof EventosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/clientes': typeof ClientesRoute
+  '/eventos/nuevo': typeof EventosNuevoRoute
   '/eventos': typeof EventosIndexRoute
 }
 export interface FileRoutesById {
@@ -51,14 +59,21 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/clientes': typeof ClientesRoute
   '/eventos': typeof EventosRouteWithChildren
+  '/eventos/nuevo': typeof EventosNuevoRoute
   '/eventos/': typeof EventosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/clientes' | '/eventos' | '/eventos/'
+  fullPaths: '/' | '/clientes' | '/eventos' | '/eventos/nuevo' | '/eventos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/clientes' | '/eventos'
-  id: '__root__' | '/' | '/clientes' | '/eventos' | '/eventos/'
+  to: '/' | '/clientes' | '/eventos/nuevo' | '/eventos'
+  id:
+    | '__root__'
+    | '/'
+    | '/clientes'
+    | '/eventos'
+    | '/eventos/nuevo'
+    | '/eventos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -97,14 +112,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EventosIndexRouteImport
       parentRoute: typeof EventosRoute
     }
+    '/eventos/nuevo': {
+      id: '/eventos/nuevo'
+      path: '/nuevo'
+      fullPath: '/eventos/nuevo'
+      preLoaderRoute: typeof EventosNuevoRouteImport
+      parentRoute: typeof EventosRoute
+    }
   }
 }
 
 interface EventosRouteChildren {
+  EventosNuevoRoute: typeof EventosNuevoRoute
   EventosIndexRoute: typeof EventosIndexRoute
 }
 
 const EventosRouteChildren: EventosRouteChildren = {
+  EventosNuevoRoute: EventosNuevoRoute,
   EventosIndexRoute: EventosIndexRoute,
 }
 
