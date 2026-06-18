@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ReportesRouteImport } from './routes/reportes'
 import { Route as InventarioRouteImport } from './routes/inventario'
 import { Route as EventosRouteImport } from './routes/eventos'
 import { Route as CotizacionesRouteImport } from './routes/cotizaciones'
@@ -19,6 +20,11 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as EventosIndexRouteImport } from './routes/eventos.index'
 import { Route as EventosNuevoRouteImport } from './routes/eventos.nuevo'
 
+const ReportesRoute = ReportesRouteImport.update({
+  id: '/reportes',
+  path: '/reportes',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InventarioRoute = InventarioRouteImport.update({
   id: '/inventario',
   path: '/inventario',
@@ -73,6 +79,7 @@ export interface FileRoutesByFullPath {
   '/cotizaciones': typeof CotizacionesRoute
   '/eventos': typeof EventosRouteWithChildren
   '/inventario': typeof InventarioRoute
+  '/reportes': typeof ReportesRoute
   '/eventos/nuevo': typeof EventosNuevoRoute
   '/eventos/': typeof EventosIndexRoute
 }
@@ -83,6 +90,7 @@ export interface FileRoutesByTo {
   '/clientes': typeof ClientesRoute
   '/cotizaciones': typeof CotizacionesRoute
   '/inventario': typeof InventarioRoute
+  '/reportes': typeof ReportesRoute
   '/eventos/nuevo': typeof EventosNuevoRoute
   '/eventos': typeof EventosIndexRoute
 }
@@ -95,6 +103,7 @@ export interface FileRoutesById {
   '/cotizaciones': typeof CotizacionesRoute
   '/eventos': typeof EventosRouteWithChildren
   '/inventario': typeof InventarioRoute
+  '/reportes': typeof ReportesRoute
   '/eventos/nuevo': typeof EventosNuevoRoute
   '/eventos/': typeof EventosIndexRoute
 }
@@ -108,6 +117,7 @@ export interface FileRouteTypes {
     | '/cotizaciones'
     | '/eventos'
     | '/inventario'
+    | '/reportes'
     | '/eventos/nuevo'
     | '/eventos/'
   fileRoutesByTo: FileRoutesByTo
@@ -118,6 +128,7 @@ export interface FileRouteTypes {
     | '/clientes'
     | '/cotizaciones'
     | '/inventario'
+    | '/reportes'
     | '/eventos/nuevo'
     | '/eventos'
   id:
@@ -129,6 +140,7 @@ export interface FileRouteTypes {
     | '/cotizaciones'
     | '/eventos'
     | '/inventario'
+    | '/reportes'
     | '/eventos/nuevo'
     | '/eventos/'
   fileRoutesById: FileRoutesById
@@ -141,10 +153,18 @@ export interface RootRouteChildren {
   CotizacionesRoute: typeof CotizacionesRoute
   EventosRoute: typeof EventosRouteWithChildren
   InventarioRoute: typeof InventarioRoute
+  ReportesRoute: typeof ReportesRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/reportes': {
+      id: '/reportes'
+      path: '/reportes'
+      fullPath: '/reportes'
+      preLoaderRoute: typeof ReportesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/inventario': {
       id: '/inventario'
       path: '/inventario'
@@ -232,6 +252,7 @@ const rootRouteChildren: RootRouteChildren = {
   CotizacionesRoute: CotizacionesRoute,
   EventosRoute: EventosRouteWithChildren,
   InventarioRoute: InventarioRoute,
+  ReportesRoute: ReportesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
