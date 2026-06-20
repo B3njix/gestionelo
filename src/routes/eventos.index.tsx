@@ -9,7 +9,7 @@ import { events } from "@/lib/mock-data";
 import { formatUSD, formatDate } from "@/lib/format";
 
 export const Route = createFileRoute("/eventos/")({
-  head: () => ({ meta: [{ title: "Eventos — Decora ERP" }] }),
+  head: () => ({ meta: [{ title: "Eventos — Gestionelo" }] }),
   component: EventosList,
 });
 

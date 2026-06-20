@@ -9,7 +9,7 @@ import { monthlyRevenue, eventsByCategory, topProducts, topCustomers, conversion
 import { formatUSD } from "@/lib/format";
 
 export const Route = createFileRoute("/reportes")({
-  head: () => ({ meta: [{ title: "Reportes — Decora ERP" }] }),
+  head: () => ({ meta: [{ title: "Reportes — Gestionelo" }] }),
   component: Reportes,
 });
 
