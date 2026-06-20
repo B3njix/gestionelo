@@ -16,7 +16,7 @@ import { CATEGORIES, EVENT_TYPES, customers, products, type Product } from "@/li
 import { formatUSD } from "@/lib/format";
 
 export const Route = createFileRoute("/eventos/nuevo")({
-  head: () => ({ meta: [{ title: "Nuevo Evento — Decora ERP" }] }),
+  head: () => ({ meta: [{ title: "Nuevo Evento — Gestionelo" }] }),
   component: NuevoEvento,
 });
 

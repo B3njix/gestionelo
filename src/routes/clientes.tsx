@@ -13,7 +13,7 @@ import { customers, events, quotes } from "@/lib/mock-data";
 import { formatUSD, formatDate } from "@/lib/format";
 
 export const Route = createFileRoute("/clientes")({
-  head: () => ({ meta: [{ title: "Clientes — Decora ERP" }] }),
+  head: () => ({ meta: [{ title: "Clientes — Gestionelo" }] }),
   component: ClientesPage,
 });
 

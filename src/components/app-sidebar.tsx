@@ -35,7 +35,7 @@ export function AppSidebar() {
             <Sparkles className="h-4 w-4" />
           </div>
           <div className="flex flex-col leading-tight group-data-[collapsible=icon]:hidden">
-            <span className="text-sm font-semibold">Decora ERP</span>
+            <span className="text-sm font-semibold">Gestionelo</span>
             <span className="text-[11px] text-muted-foreground">Eventos & Decoración</span>
           </div>
         </div>

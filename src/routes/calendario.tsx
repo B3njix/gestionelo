@@ -9,7 +9,7 @@ import { events } from "@/lib/mock-data";
 import { formatDate } from "@/lib/format";
 
 export const Route = createFileRoute("/calendario")({
-  head: () => ({ meta: [{ title: "Calendario — Decora ERP" }] }),
+  head: () => ({ meta: [{ title: "Calendario — Gestionelo" }] }),
   component: Calendario,
 });
 

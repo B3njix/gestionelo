@@ -12,7 +12,7 @@ import { quotes } from "@/lib/mock-data";
 import { formatUSD, formatDate } from "@/lib/format";
 
 export const Route = createFileRoute("/cotizaciones")({
-  head: () => ({ meta: [{ title: "Cotizaciones — Decora ERP" }] }),
+  head: () => ({ meta: [{ title: "Cotizaciones — Gestionelo" }] }),
   component: Cotizaciones,
 });
 

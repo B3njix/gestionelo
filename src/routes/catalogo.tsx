@@ -11,7 +11,7 @@ import { CATEGORIES, products } from "@/lib/mock-data";
 import { formatUSD } from "@/lib/format";
 
 export const Route = createFileRoute("/catalogo")({
-  head: () => ({ meta: [{ title: "Catálogo — Decora ERP" }] }),
+  head: () => ({ meta: [{ title: "Catálogo — Gestionelo" }] }),
   component: Catalogo,
 });
 

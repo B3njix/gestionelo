@@ -11,7 +11,7 @@ import { products } from "@/lib/mock-data";
 import { formatUSD } from "@/lib/format";
 
 export const Route = createFileRoute("/inventario")({
-  head: () => ({ meta: [{ title: "Inventario — Decora ERP" }] }),
+  head: () => ({ meta: [{ title: "Inventario — Gestionelo" }] }),
   component: Inventario,
 });
 

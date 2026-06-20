@@ -14,7 +14,7 @@ import { events, monthlyRevenue, conversionRate, topProducts, quotes } from "@/l
 import { formatUSD, formatDate } from "@/lib/format";
 
 export const Route = createFileRoute("/")({
-  head: () => ({ meta: [{ title: "Panel Principal — Decora ERP" }] }),
+  head: () => ({ meta: [{ title: "Panel Principal — Gestionelo" }] }),
   component: Dashboard,
 });
 
