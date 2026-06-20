@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ReportesRouteImport } from './routes/reportes'
 import { Route as InventarioRouteImport } from './routes/inventario'
 import { Route as EventosRouteImport } from './routes/eventos'
@@ -20,6 +21,11 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as EventosIndexRouteImport } from './routes/eventos.index'
 import { Route as EventosNuevoRouteImport } from './routes/eventos.nuevo'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ReportesRoute = ReportesRouteImport.update({
   id: '/reportes',
   path: '/reportes',
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/eventos': typeof EventosRouteWithChildren
   '/inventario': typeof InventarioRoute
   '/reportes': typeof ReportesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/eventos/nuevo': typeof EventosNuevoRoute
   '/eventos/': typeof EventosIndexRoute
 }
@@ -91,6 +98,7 @@ export interface FileRoutesByTo {
   '/cotizaciones': typeof CotizacionesRoute
   '/inventario': typeof InventarioRoute
   '/reportes': typeof ReportesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/eventos/nuevo': typeof EventosNuevoRoute
   '/eventos': typeof EventosIndexRoute
 }
@@ -104,6 +112,7 @@ export interface FileRoutesById {
   '/eventos': typeof EventosRouteWithChildren
   '/inventario': typeof InventarioRoute
   '/reportes': typeof ReportesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/eventos/nuevo': typeof EventosNuevoRoute
   '/eventos/': typeof EventosIndexRoute
 }
@@ -118,6 +127,7 @@ export interface FileRouteTypes {
     | '/eventos'
     | '/inventario'
     | '/reportes'
+    | '/sitemap.xml'
     | '/eventos/nuevo'
     | '/eventos/'
   fileRoutesByTo: FileRoutesByTo
@@ -129,6 +139,7 @@ export interface FileRouteTypes {
     | '/cotizaciones'
     | '/inventario'
     | '/reportes'
+    | '/sitemap.xml'
     | '/eventos/nuevo'
     | '/eventos'
   id:
@@ -141,6 +152,7 @@ export interface FileRouteTypes {
     | '/eventos'
     | '/inventario'
     | '/reportes'
+    | '/sitemap.xml'
     | '/eventos/nuevo'
     | '/eventos/'
   fileRoutesById: FileRoutesById
@@ -154,10 +166,18 @@ export interface RootRouteChildren {
   EventosRoute: typeof EventosRouteWithChildren
   InventarioRoute: typeof InventarioRoute
   ReportesRoute: typeof ReportesRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reportes': {
       id: '/reportes'
       path: '/reportes'
@@ -253,6 +273,7 @@ const rootRouteChildren: RootRouteChildren = {
   EventosRoute: EventosRouteWithChildren,
   InventarioRoute: InventarioRoute,
   ReportesRoute: ReportesRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
