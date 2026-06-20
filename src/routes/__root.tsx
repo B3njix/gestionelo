@@ -82,19 +82,44 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Gestionelo — Sistema integral para empresas de decoración de eventos." },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Gestionelo — Sistema integral para empresas de decoración de eventos." },
+      { title: "Gestionelo — ERP para empresas de decoración de eventos" },
+      { name: "description", content: "Gestionelo es el ERP en la nube para empresas de decoración y producción de eventos: CRM, cotizaciones, inventario, calendario y reportes." },
+      { name: "author", content: "Gestionelo" },
+      { name: "keywords", content: "gestionelo, erp eventos, software decoración eventos, cotizaciones eventos, inventario alquiler, crm eventos" },
+      { name: "application-name", content: "Gestionelo" },
+      { property: "og:site_name", content: "Gestionelo" },
+      { property: "og:title", content: "Gestionelo — ERP para empresas de decoración de eventos" },
+      { property: "og:description", content: "CRM, cotizaciones, inventario y calendario en un ERP diseñado para empresas de decoración de eventos." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+      { property: "og:url", content: "https://gestionelo.com/" },
+      { property: "og:locale", content: "es_ES" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:site", content: "@gestionelo" },
+      { name: "twitter:title", content: "Gestionelo — ERP para decoración de eventos" },
+      { name: "twitter:description", content: "CRM, cotizaciones, inventario y calendario en un ERP para empresas de decoración de eventos." },
+      { name: "robots", content: "index, follow" },
     ],
     links: [
       {
         rel: "stylesheet",
         href: appCss,
+      },
+      { rel: "canonical", href: "https://gestionelo.com/" },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          name: "Gestionelo",
+          url: "https://gestionelo.com/",
+          applicationCategory: "BusinessApplication",
+          operatingSystem: "Web",
+          description: "ERP en la nube para empresas de decoración y producción de eventos.",
+          offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+          publisher: { "@type": "Organization", name: "Gestionelo", url: "https://gestionelo.com/" },
+        }),
       },
     ],
   }),
@@ -106,7 +131,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="es">
       <head>
         <HeadContent />
       </head>
