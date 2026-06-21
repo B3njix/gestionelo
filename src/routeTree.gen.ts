@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ReportesRouteImport } from './routes/reportes'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as InventarioRouteImport } from './routes/inventario'
 import { Route as EventosRouteImport } from './routes/eventos'
 import { Route as CotizacionesRouteImport } from './routes/cotizaciones'
@@ -29,6 +30,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const ReportesRoute = ReportesRouteImport.update({
   id: '/reportes',
   path: '/reportes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InventarioRoute = InventarioRouteImport.update({
@@ -85,6 +91,7 @@ export interface FileRoutesByFullPath {
   '/cotizaciones': typeof CotizacionesRoute
   '/eventos': typeof EventosRouteWithChildren
   '/inventario': typeof InventarioRoute
+  '/login': typeof LoginRoute
   '/reportes': typeof ReportesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/eventos/nuevo': typeof EventosNuevoRoute
@@ -97,6 +104,7 @@ export interface FileRoutesByTo {
   '/clientes': typeof ClientesRoute
   '/cotizaciones': typeof CotizacionesRoute
   '/inventario': typeof InventarioRoute
+  '/login': typeof LoginRoute
   '/reportes': typeof ReportesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/eventos/nuevo': typeof EventosNuevoRoute
@@ -111,6 +119,7 @@ export interface FileRoutesById {
   '/cotizaciones': typeof CotizacionesRoute
   '/eventos': typeof EventosRouteWithChildren
   '/inventario': typeof InventarioRoute
+  '/login': typeof LoginRoute
   '/reportes': typeof ReportesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/eventos/nuevo': typeof EventosNuevoRoute
@@ -126,6 +135,7 @@ export interface FileRouteTypes {
     | '/cotizaciones'
     | '/eventos'
     | '/inventario'
+    | '/login'
     | '/reportes'
     | '/sitemap.xml'
     | '/eventos/nuevo'
@@ -138,6 +148,7 @@ export interface FileRouteTypes {
     | '/clientes'
     | '/cotizaciones'
     | '/inventario'
+    | '/login'
     | '/reportes'
     | '/sitemap.xml'
     | '/eventos/nuevo'
@@ -151,6 +162,7 @@ export interface FileRouteTypes {
     | '/cotizaciones'
     | '/eventos'
     | '/inventario'
+    | '/login'
     | '/reportes'
     | '/sitemap.xml'
     | '/eventos/nuevo'
@@ -165,6 +177,7 @@ export interface RootRouteChildren {
   CotizacionesRoute: typeof CotizacionesRoute
   EventosRoute: typeof EventosRouteWithChildren
   InventarioRoute: typeof InventarioRoute
+  LoginRoute: typeof LoginRoute
   ReportesRoute: typeof ReportesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
 }
@@ -183,6 +196,13 @@ declare module '@tanstack/react-router' {
       path: '/reportes'
       fullPath: '/reportes'
       preLoaderRoute: typeof ReportesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/inventario': {
@@ -272,9 +292,20 @@ const rootRouteChildren: RootRouteChildren = {
   CotizacionesRoute: CotizacionesRoute,
   EventosRoute: EventosRouteWithChildren,
   InventarioRoute: InventarioRoute,
+  LoginRoute: LoginRoute,
   ReportesRoute: ReportesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

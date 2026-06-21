@@ -20,6 +20,24 @@ dist-ssr
 .wrangler/
 .dev.vars
 
+# Environment variables
+.env
+.env.local
+
+# Supabase Edge Functions artifacts
+supabase/.temp/
+supabase/**/node_modules/
+
+# Opencode config (contains secrets)
+opencode.json
+
+# Archive files
+*.tgz
+*.tar.gz
+
+# OS
+Thumbs.db
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

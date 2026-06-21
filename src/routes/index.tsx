@@ -3,12 +3,19 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/page-header";
+import { DollarSign, TrendingUp, CalendarDays, FileText, Plus, ArrowUpRight } from "lucide-react";
 import {
-  DollarSign, TrendingUp, CalendarDays, FileText, Plus, ArrowUpRight,
-} from "lucide-react";
-import {
-  Area, AreaChart, Bar, BarChart, CartesianGrid, Line, LineChart,
-  ResponsiveContainer, Tooltip, XAxis, YAxis,
+  Area,
+  AreaChart,
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
 } from "recharts";
 import { events, monthlyRevenue, conversionRate, topProducts, quotes } from "@/lib/mock-data";
 import { formatUSD, formatDate } from "@/lib/format";
@@ -33,7 +40,9 @@ function Dashboard() {
     .filter((e) => new Date(e.fecha) >= new Date())
     .sort((a, b) => +new Date(a.fecha) - +new Date(b.fecha))
     .slice(0, 5);
-  const pendingQuotes = quotes.filter((q) => q.estado === "Enviada" || q.estado === "Borrador").slice(0, 5);
+  const pendingQuotes = quotes
+    .filter((q) => q.estado === "Enviada" || q.estado === "Borrador")
+    .slice(0, 5);
   const revenueTotal = monthlyRevenue.reduce((a, b) => a + b.ingresos, 0);
   const eventCount = events.length;
   const pendingCount = quotes.filter((q) => q.estado === "Enviada").length;
@@ -54,17 +63,43 @@ function Dashboard() {
       />
       <div className="space-y-6 p-4 sm:p-6 lg:p-8">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <StatCard icon={DollarSign} label="Ingresos del año" value={formatUSD(revenueTotal)} delta="+18.4%" tone="primary" />
-          <StatCard icon={CalendarDays} label="Eventos programados" value={String(eventCount)} delta="+5 este mes" tone="gold" />
-          <StatCard icon={FileText} label="Cotizaciones pendientes" value={String(pendingCount)} delta="3 vencen pronto" tone="warning" />
-          <StatCard icon={TrendingUp} label="Tasa de conversión" value={`${conv}%`} delta="+4 pts vs mes anterior" tone="success" />
+          <StatCard
+            icon={DollarSign}
+            label="Ingresos del año"
+            value={formatUSD(revenueTotal)}
+            delta="+18.4%"
+            tone="primary"
+          />
+          <StatCard
+            icon={CalendarDays}
+            label="Eventos programados"
+            value={String(eventCount)}
+            delta="+5 este mes"
+            tone="gold"
+          />
+          <StatCard
+            icon={FileText}
+            label="Cotizaciones pendientes"
+            value={String(pendingCount)}
+            delta="3 vencen pronto"
+            tone="warning"
+          />
+          <StatCard
+            icon={TrendingUp}
+            label="Tasa de conversión"
+            value={`${conv}%`}
+            delta="+4 pts vs mes anterior"
+            tone="success"
+          />
         </div>
 
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
           <Card className="lg:col-span-2 shadow-sm">
             <CardHeader>
               <CardTitle className="text-base">Ingresos mensuales</CardTitle>
-              <p className="text-xs text-muted-foreground">Evolución de ingresos durante el año en curso.</p>
+              <p className="text-xs text-muted-foreground">
+                Evolución de ingresos durante el año en curso.
+              </p>
             </CardHeader>
             <CardContent className="h-72 px-2">
               <ResponsiveContainer width="100%" height="100%">
@@ -77,9 +112,22 @@ function Dashboard() {
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.92 0.012 285)" />
                   <XAxis dataKey="mes" stroke="oklch(0.52 0.03 275)" fontSize={12} />
-                  <YAxis stroke="oklch(0.52 0.03 275)" fontSize={12} tickFormatter={(v) => `$${v / 1000}k`} />
-                  <Tooltip formatter={(v: number) => formatUSD(v)} contentStyle={{ borderRadius: 12, border: "1px solid oklch(0.92 0.012 285)" }} />
-                  <Area type="monotone" dataKey="ingresos" stroke="oklch(0.42 0.18 295)" strokeWidth={2.5} fill="url(#rev)" />
+                  <YAxis
+                    stroke="oklch(0.52 0.03 275)"
+                    fontSize={12}
+                    tickFormatter={(v) => `$${v / 1000}k`}
+                  />
+                  <Tooltip
+                    formatter={(v: number) => formatUSD(v)}
+                    contentStyle={{ borderRadius: 12, border: "1px solid oklch(0.92 0.012 285)" }}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="ingresos"
+                    stroke="oklch(0.42 0.18 295)"
+                    strokeWidth={2.5}
+                    fill="url(#rev)"
+                  />
                 </AreaChart>
               </ResponsiveContainer>
             </CardContent>
@@ -95,9 +143,19 @@ function Dashboard() {
                 <LineChart data={conversionRate}>
                   <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.92 0.012 285)" />
                   <XAxis dataKey="mes" stroke="oklch(0.52 0.03 275)" fontSize={12} />
-                  <YAxis stroke="oklch(0.52 0.03 275)" fontSize={12} tickFormatter={(v) => `${v}%`} />
+                  <YAxis
+                    stroke="oklch(0.52 0.03 275)"
+                    fontSize={12}
+                    tickFormatter={(v) => `${v}%`}
+                  />
                   <Tooltip formatter={(v: number) => `${v}%`} contentStyle={{ borderRadius: 12 }} />
-                  <Line type="monotone" dataKey="tasa" stroke="oklch(0.78 0.13 85)" strokeWidth={3} dot={{ fill: "oklch(0.78 0.13 85)", r: 4 }} />
+                  <Line
+                    type="monotone"
+                    dataKey="tasa"
+                    stroke="oklch(0.78 0.13 85)"
+                    strokeWidth={3}
+                    dot={{ fill: "oklch(0.78 0.13 85)", r: 4 }}
+                  />
                 </LineChart>
               </ResponsiveContainer>
             </CardContent>
@@ -112,19 +170,28 @@ function Dashboard() {
                 <p className="text-xs text-muted-foreground">Eventos confirmados de la agenda.</p>
               </div>
               <Button asChild variant="ghost" size="sm">
-                <Link to="/eventos">Ver todos <ArrowUpRight className="h-3.5 w-3.5" /></Link>
+                <Link to="/eventos">
+                  Ver todos <ArrowUpRight className="h-3.5 w-3.5" />
+                </Link>
               </Button>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
                 {upcoming.map((e) => (
-                  <div key={e.id} className="flex items-center justify-between rounded-lg border bg-card/50 p-3">
+                  <div
+                    key={e.id}
+                    className="flex items-center justify-between rounded-lg border bg-card/50 p-3"
+                  >
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
                         <span className="font-medium truncate">{e.nombre}</span>
-                        <Badge variant="outline" className={statusVariant[e.estado]}>{e.estado}</Badge>
+                        <Badge variant="outline" className={statusVariant[e.estado]}>
+                          {e.estado}
+                        </Badge>
                       </div>
-                      <p className="text-xs text-muted-foreground truncate">{e.cliente} · {e.lugar}</p>
+                      <p className="text-xs text-muted-foreground truncate">
+                        {e.cliente} · {e.lugar}
+                      </p>
                     </div>
                     <div className="text-right">
                       <p className="text-sm font-semibold">{formatDate(e.fecha)}</p>
@@ -149,7 +216,9 @@ function Dashboard() {
                   </div>
                   <div className="text-right">
                     <p className="text-sm font-semibold">{formatUSD(q.total)}</p>
-                    <Badge variant="outline" className={statusVariant[q.estado]}>{q.estado}</Badge>
+                    <Badge variant="outline" className={statusVariant[q.estado]}>
+                      {q.estado}
+                    </Badge>
                   </div>
                 </div>
               ))}
@@ -166,7 +235,15 @@ function Dashboard() {
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={topProducts} margin={{ left: 0, right: 20 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.92 0.012 285)" />
-                <XAxis dataKey="nombre" stroke="oklch(0.52 0.03 275)" fontSize={11} interval={0} angle={-15} textAnchor="end" height={70} />
+                <XAxis
+                  dataKey="nombre"
+                  stroke="oklch(0.52 0.03 275)"
+                  fontSize={11}
+                  interval={0}
+                  angle={-15}
+                  textAnchor="end"
+                  height={70}
+                />
                 <YAxis stroke="oklch(0.52 0.03 275)" fontSize={12} />
                 <Tooltip contentStyle={{ borderRadius: 12 }} />
                 <Bar dataKey="alquileres" fill="oklch(0.42 0.18 295)" radius={[8, 8, 0, 0]} />
@@ -180,8 +257,18 @@ function Dashboard() {
 }
 
 function StatCard({
-  icon: Icon, label, value, delta, tone,
-}: { icon: any; label: string; value: string; delta: string; tone: "primary" | "gold" | "warning" | "success" }) {
+  icon: Icon,
+  label,
+  value,
+  delta,
+  tone,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  value: string;
+  delta: string;
+  tone: "primary" | "gold" | "warning" | "success";
+}) {
   const toneStyle: Record<string, string> = {
     primary: "bg-primary/10 text-primary",
     gold: "bg-gold/15 text-gold-foreground",
@@ -197,7 +284,9 @@ function StatCard({
             <p className="mt-2 text-2xl font-semibold tracking-tight">{value}</p>
             <p className="mt-1 text-xs text-success">{delta}</p>
           </div>
-          <div className={`flex h-10 w-10 items-center justify-center rounded-lg ${toneStyle[tone]}`}>
+          <div
+            className={`flex h-10 w-10 items-center justify-center rounded-lg ${toneStyle[tone]}`}
+          >
             <Icon className="h-5 w-5" />
           </div>
         </div>

@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -15,7 +16,14 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { Toaster } from "@/components/ui/sonner";
 import { Input } from "@/components/ui/input";
-import { Search, Bell } from "lucide-react";
+import { Search, Bell, LogOut, ChevronDown } from "lucide-react";
+import { AuthProvider, useAuth, useRequireAuth } from "@/hooks/use-auth";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 function NotFoundComponent() {
   return (
@@ -83,20 +91,36 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Gestionelo — ERP para empresas de decoración de eventos" },
-      { name: "description", content: "Gestionelo es el ERP en la nube para empresas de decoración y producción de eventos: CRM, cotizaciones, inventario, calendario y reportes." },
+      {
+        name: "description",
+        content:
+          "Gestionelo es el ERP en la nube para empresas de decoración y producción de eventos: CRM, cotizaciones, inventario, calendario y reportes.",
+      },
       { name: "author", content: "Gestionelo" },
-      { name: "keywords", content: "gestionelo, erp eventos, software decoración eventos, cotizaciones eventos, inventario alquiler, crm eventos" },
+      {
+        name: "keywords",
+        content:
+          "gestionelo, erp eventos, software decoración eventos, cotizaciones eventos, inventario alquiler, crm eventos",
+      },
       { name: "application-name", content: "Gestionelo" },
       { property: "og:site_name", content: "Gestionelo" },
       { property: "og:title", content: "Gestionelo — ERP para empresas de decoración de eventos" },
-      { property: "og:description", content: "CRM, cotizaciones, inventario y calendario en un ERP diseñado para empresas de decoración de eventos." },
+      {
+        property: "og:description",
+        content:
+          "CRM, cotizaciones, inventario y calendario en un ERP diseñado para empresas de decoración de eventos.",
+      },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://gestionelo.com/" },
       { property: "og:locale", content: "es_ES" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@gestionelo" },
       { name: "twitter:title", content: "Gestionelo — ERP para decoración de eventos" },
-      { name: "twitter:description", content: "CRM, cotizaciones, inventario y calendario en un ERP para empresas de decoración de eventos." },
+      {
+        name: "twitter:description",
+        content:
+          "CRM, cotizaciones, inventario y calendario en un ERP para empresas de decoración de eventos.",
+      },
       { name: "robots", content: "index, follow" },
     ],
     links: [
@@ -118,7 +142,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           operatingSystem: "Web",
           description: "ERP en la nube para empresas de decoración y producción de eventos.",
           offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-          publisher: { "@type": "Organization", name: "Gestionelo", url: "https://gestionelo.com/" },
+          publisher: {
+            "@type": "Organization",
+            name: "Gestionelo",
+            url: "https://gestionelo.com/",
+          },
         }),
       },
     ],
@@ -148,32 +176,96 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <SidebarProvider>
-        <div className="flex min-h-screen w-full bg-background">
-          <AppSidebar />
-          <div className="flex flex-1 flex-col min-w-0">
-            <header className="sticky top-0 z-20 flex h-14 items-center gap-3 border-b bg-background/80 px-3 backdrop-blur sm:px-6">
-              <SidebarTrigger />
-              <div className="relative hidden flex-1 max-w-md md:block">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <Input placeholder="Buscar clientes, eventos, productos..." className="h-9 pl-9" />
-              </div>
-              <div className="ml-auto flex items-center gap-2">
-                <button className="relative inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground">
-                  <Bell className="h-4 w-4" />
-                  <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-gold" />
-                </button>
-                <div className="h-8 w-8 rounded-full bg-accent text-xs font-semibold text-accent-foreground flex items-center justify-center">SA</div>
-              </div>
-            </header>
-            <main className="flex-1">
-              {/* Required: nested routes render here. */}
-              <Outlet />
-            </main>
-          </div>
-        </div>
-        <Toaster richColors position="top-right" />
-      </SidebarProvider>
+      <AuthProvider>
+        <AuthShell />
+      </AuthProvider>
     </QueryClientProvider>
+  );
+}
+
+function AuthShell() {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+
+  if (pathname === "/login") {
+    return (
+      <>
+        <Outlet />
+        <Toaster richColors position="top-right" />
+      </>
+    );
+  }
+
+  return <AuthenticatedShell />;
+}
+
+function AuthenticatedShell() {
+  const { user, loading, signOut } = useAuth();
+  const router = useRouter();
+  const { user: authUser, loading: authLoading } = useRequireAuth();
+
+  if (authLoading || loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <div className="text-muted-foreground">Cargando...</div>
+      </div>
+    );
+  }
+
+  if (!authUser && !loading) {
+    return null;
+  }
+
+  const initials = user?.email ? user.email.substring(0, 2).toUpperCase() : "SA";
+
+  return (
+    <SidebarProvider>
+      <div className="flex min-h-screen w-full bg-background">
+        <AppSidebar />
+        <div className="flex flex-1 flex-col min-w-0">
+          <header className="sticky top-0 z-20 flex h-14 items-center gap-3 border-b bg-background/80 px-3 backdrop-blur sm:px-6">
+            <SidebarTrigger />
+            <div className="relative hidden flex-1 max-w-md md:block">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input placeholder="Buscar clientes, eventos, productos..." className="h-9 pl-9" />
+            </div>
+            <div className="ml-auto flex items-center gap-2">
+              <button className="relative inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground">
+                <Bell className="h-4 w-4" />
+                <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-gold" />
+              </button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm hover:bg-accent">
+                    <div className="h-8 w-8 rounded-full bg-accent text-xs font-semibold text-accent-foreground flex items-center justify-center">
+                      {initials}
+                    </div>
+                    <span className="hidden text-sm font-medium md:inline-block max-w-[120px] truncate">
+                      {user?.user_metadata?.name ?? user?.email ?? "Usuario"}
+                    </span>
+                    <ChevronDown className="hidden h-3.5 w-3.5 md:inline-block" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem
+                    onClick={() => {
+                      signOut();
+                      router.navigate({ to: "/login" });
+                    }}
+                    className="text-destructive"
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Cerrar Sesión
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </header>
+          <main className="flex-1">
+            <Outlet />
+          </main>
+        </div>
+      </div>
+      <Toaster richColors position="top-right" />
+    </SidebarProvider>
   );
 }

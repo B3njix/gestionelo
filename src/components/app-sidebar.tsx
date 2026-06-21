@@ -1,12 +1,28 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
-  LayoutDashboard, Users, CalendarDays, PackageSearch, FileText,
-  CalendarRange, Boxes, BarChart3, Sparkles,
+  LayoutDashboard,
+  Users,
+  CalendarDays,
+  PackageSearch,
+  FileText,
+  CalendarRange,
+  Boxes,
+  BarChart3,
+  Sparkles,
 } from "lucide-react";
 import {
-  Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
-  SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarFooter,
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarFooter,
 } from "@/components/ui/sidebar";
+import { useAuth } from "@/hooks/use-auth";
 
 const items = [
   { title: "Panel Principal", url: "/", icon: LayoutDashboard, exact: true },
@@ -21,8 +37,12 @@ const items = [
 
 export function AppSidebar() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { user, tenantId } = useAuth();
   const isActive = (url: string, exact?: boolean) =>
     exact ? pathname === url : pathname === url || pathname.startsWith(url + "/");
+
+  const userName = (user?.user_metadata?.name as string | undefined) ?? user?.email ?? "Usuario";
+  const userInitials = userName.substring(0, 2).toUpperCase();
 
   return (
     <Sidebar collapsible="icon">
@@ -47,7 +67,11 @@ export function AppSidebar() {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.url}>
-                  <SidebarMenuButton asChild isActive={isActive(item.url, item.exact)} tooltip={item.title}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={isActive(item.url, item.exact)}
+                    tooltip={item.title}
+                  >
                     <Link to={item.url}>
                       <item.icon className="h-4 w-4" />
                       <span>{item.title}</span>
@@ -61,10 +85,14 @@ export function AppSidebar() {
       </SidebarContent>
       <SidebarFooter className="border-t border-sidebar-border">
         <div className="flex items-center gap-2 px-2 py-2 group-data-[collapsible=icon]:hidden">
-          <div className="h-8 w-8 rounded-full bg-accent flex items-center justify-center text-xs font-semibold text-accent-foreground">SA</div>
+          <div className="h-8 w-8 rounded-full bg-accent flex items-center justify-center text-xs font-semibold text-accent-foreground">
+            {userInitials}
+          </div>
           <div className="flex flex-col text-xs leading-tight">
-            <span className="font-medium">Sofía Aguilar</span>
-            <span className="text-muted-foreground">Administradora</span>
+            <span className="font-medium truncate max-w-[120px]">{userName}</span>
+            <span className="text-muted-foreground">
+              {tenantId ? `Tenant: ${tenantId.substring(0, 8)}...` : "Cargando..."}
+            </span>
           </div>
         </div>
       </SidebarFooter>
