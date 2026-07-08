@@ -18,9 +18,15 @@ import { Route as CotizacionesRouteImport } from './routes/cotizaciones'
 import { Route as ClientesRouteImport } from './routes/clientes'
 import { Route as CatalogoRouteImport } from './routes/catalogo'
 import { Route as CalendarioRouteImport } from './routes/calendario'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as EventosIndexRouteImport } from './routes/eventos.index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as EventosNuevoRouteImport } from './routes/eventos.nuevo'
+import { Route as AdminTenantsRouteImport } from './routes/admin.tenants'
+import { Route as AdminTenantsIndexRouteImport } from './routes/admin.tenants.index'
+import { Route as AdminTenantsNuevoRouteImport } from './routes/admin.tenants.nuevo'
+import { Route as AdminTenantsIdRouteImport } from './routes/admin.tenants.$id'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -67,6 +73,11 @@ const CalendarioRoute = CalendarioRouteImport.update({
   path: '/calendario',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -77,14 +88,40 @@ const EventosIndexRoute = EventosIndexRouteImport.update({
   path: '/',
   getParentRoute: () => EventosRoute,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
 const EventosNuevoRoute = EventosNuevoRouteImport.update({
   id: '/nuevo',
   path: '/nuevo',
   getParentRoute: () => EventosRoute,
 } as any)
+const AdminTenantsRoute = AdminTenantsRouteImport.update({
+  id: '/tenants',
+  path: '/tenants',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminTenantsIndexRoute = AdminTenantsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminTenantsRoute,
+} as any)
+const AdminTenantsNuevoRoute = AdminTenantsNuevoRouteImport.update({
+  id: '/nuevo',
+  path: '/nuevo',
+  getParentRoute: () => AdminTenantsRoute,
+} as any)
+const AdminTenantsIdRoute = AdminTenantsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AdminTenantsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/calendario': typeof CalendarioRoute
   '/catalogo': typeof CatalogoRoute
   '/clientes': typeof ClientesRoute
@@ -94,8 +131,13 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/reportes': typeof ReportesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/admin/tenants': typeof AdminTenantsRouteWithChildren
   '/eventos/nuevo': typeof EventosNuevoRoute
+  '/admin/': typeof AdminIndexRoute
   '/eventos/': typeof EventosIndexRoute
+  '/admin/tenants/$id': typeof AdminTenantsIdRoute
+  '/admin/tenants/nuevo': typeof AdminTenantsNuevoRoute
+  '/admin/tenants/': typeof AdminTenantsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -108,11 +150,16 @@ export interface FileRoutesByTo {
   '/reportes': typeof ReportesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/eventos/nuevo': typeof EventosNuevoRoute
+  '/admin': typeof AdminIndexRoute
   '/eventos': typeof EventosIndexRoute
+  '/admin/tenants/$id': typeof AdminTenantsIdRoute
+  '/admin/tenants/nuevo': typeof AdminTenantsNuevoRoute
+  '/admin/tenants': typeof AdminTenantsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/calendario': typeof CalendarioRoute
   '/catalogo': typeof CatalogoRoute
   '/clientes': typeof ClientesRoute
@@ -122,13 +169,19 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/reportes': typeof ReportesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/admin/tenants': typeof AdminTenantsRouteWithChildren
   '/eventos/nuevo': typeof EventosNuevoRoute
+  '/admin/': typeof AdminIndexRoute
   '/eventos/': typeof EventosIndexRoute
+  '/admin/tenants/$id': typeof AdminTenantsIdRoute
+  '/admin/tenants/nuevo': typeof AdminTenantsNuevoRoute
+  '/admin/tenants/': typeof AdminTenantsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/calendario'
     | '/catalogo'
     | '/clientes'
@@ -138,8 +191,13 @@ export interface FileRouteTypes {
     | '/login'
     | '/reportes'
     | '/sitemap.xml'
+    | '/admin/tenants'
     | '/eventos/nuevo'
+    | '/admin/'
     | '/eventos/'
+    | '/admin/tenants/$id'
+    | '/admin/tenants/nuevo'
+    | '/admin/tenants/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -152,10 +210,15 @@ export interface FileRouteTypes {
     | '/reportes'
     | '/sitemap.xml'
     | '/eventos/nuevo'
+    | '/admin'
     | '/eventos'
+    | '/admin/tenants/$id'
+    | '/admin/tenants/nuevo'
+    | '/admin/tenants'
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/calendario'
     | '/catalogo'
     | '/clientes'
@@ -165,12 +228,18 @@ export interface FileRouteTypes {
     | '/login'
     | '/reportes'
     | '/sitemap.xml'
+    | '/admin/tenants'
     | '/eventos/nuevo'
+    | '/admin/'
     | '/eventos/'
+    | '/admin/tenants/$id'
+    | '/admin/tenants/nuevo'
+    | '/admin/tenants/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
   CalendarioRoute: typeof CalendarioRoute
   CatalogoRoute: typeof CatalogoRoute
   ClientesRoute: typeof ClientesRoute
@@ -247,6 +316,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CalendarioRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -261,6 +337,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EventosIndexRouteImport
       parentRoute: typeof EventosRoute
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/eventos/nuevo': {
       id: '/eventos/nuevo'
       path: '/nuevo'
@@ -268,8 +351,64 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EventosNuevoRouteImport
       parentRoute: typeof EventosRoute
     }
+    '/admin/tenants': {
+      id: '/admin/tenants'
+      path: '/tenants'
+      fullPath: '/admin/tenants'
+      preLoaderRoute: typeof AdminTenantsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/tenants/': {
+      id: '/admin/tenants/'
+      path: '/'
+      fullPath: '/admin/tenants/'
+      preLoaderRoute: typeof AdminTenantsIndexRouteImport
+      parentRoute: typeof AdminTenantsRoute
+    }
+    '/admin/tenants/nuevo': {
+      id: '/admin/tenants/nuevo'
+      path: '/nuevo'
+      fullPath: '/admin/tenants/nuevo'
+      preLoaderRoute: typeof AdminTenantsNuevoRouteImport
+      parentRoute: typeof AdminTenantsRoute
+    }
+    '/admin/tenants/$id': {
+      id: '/admin/tenants/$id'
+      path: '/$id'
+      fullPath: '/admin/tenants/$id'
+      preLoaderRoute: typeof AdminTenantsIdRouteImport
+      parentRoute: typeof AdminTenantsRoute
+    }
   }
 }
+
+interface AdminTenantsRouteChildren {
+  AdminTenantsIdRoute: typeof AdminTenantsIdRoute
+  AdminTenantsNuevoRoute: typeof AdminTenantsNuevoRoute
+  AdminTenantsIndexRoute: typeof AdminTenantsIndexRoute
+}
+
+const AdminTenantsRouteChildren: AdminTenantsRouteChildren = {
+  AdminTenantsIdRoute: AdminTenantsIdRoute,
+  AdminTenantsNuevoRoute: AdminTenantsNuevoRoute,
+  AdminTenantsIndexRoute: AdminTenantsIndexRoute,
+}
+
+const AdminTenantsRouteWithChildren = AdminTenantsRoute._addFileChildren(
+  AdminTenantsRouteChildren,
+)
+
+interface AdminRouteChildren {
+  AdminTenantsRoute: typeof AdminTenantsRouteWithChildren
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminTenantsRoute: AdminTenantsRouteWithChildren,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface EventosRouteChildren {
   EventosNuevoRoute: typeof EventosNuevoRoute
@@ -286,6 +425,7 @@ const EventosRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
   CalendarioRoute: CalendarioRoute,
   CatalogoRoute: CatalogoRoute,
   ClientesRoute: ClientesRoute,

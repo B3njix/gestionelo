@@ -137,7 +137,7 @@ export type Database = {
         Row: {
           id: string
           user_id: string
-          branch_id: string
+          branch_id: string | null
           role_id: string
           activo: boolean
           created_at: string | null
@@ -145,7 +145,7 @@ export type Database = {
         Insert: {
           id?: string
           user_id: string
-          branch_id: string
+          branch_id: string | null
           role_id: string
           activo?: boolean
           created_at?: string | null
@@ -153,7 +153,7 @@ export type Database = {
         Update: {
           id?: string
           user_id?: string
-          branch_id?: string
+          branch_id?: string | null
           role_id?: string
           activo?: boolean
           created_at?: string | null

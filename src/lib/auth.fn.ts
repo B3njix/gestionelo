@@ -31,6 +31,23 @@ export const loginFn = createServerFn({ method: "POST" })
       .eq("id", authData.user.id)
       .single();
 
+    const { data: userRoles } = await supabase
+      .from("user_branch_roles")
+      .select("role_id, branch_id, roles!inner(nombre, permissions)")
+      .eq("user_id", authData.user.id)
+      .eq("activo", true);
+
+    const roles =
+      userRoles?.map((r) => ({
+        role_id: r.role_id,
+        role_name: (r.roles as unknown as { nombre: string }).nombre,
+        branch_id: r.branch_id,
+      })) ?? [];
+
+    const isSuperAdmin = roles.some(
+      (r) => r.role_name === "super_admin" && r.branch_id === null,
+    );
+
     const tenantId = authData.user.user_metadata?.tenant_id as string | undefined;
 
     return {
@@ -41,7 +58,9 @@ export const loginFn = createServerFn({ method: "POST" })
         id: authData.user.id,
         email: authData.user.email,
         nombre: profile?.nombre ?? authData.user.email,
-        tenant_id: tenantId ?? null,
+        tenant_id: isSuperAdmin ? null : (tenantId ?? null),
+        is_super_admin: isSuperAdmin,
+        roles,
       },
     };
   });

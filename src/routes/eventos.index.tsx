@@ -3,7 +3,14 @@ import { PageHeader } from "@/components/page-header";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Plus } from "lucide-react";
 import { events } from "@/lib/mock-data";
 import { formatUSD, formatDate } from "@/lib/format";
@@ -28,7 +35,9 @@ function EventosList() {
         description="Gestiona todos los eventos de tu agenda."
         actions={
           <Button asChild style={{ background: "var(--gradient-primary)" }}>
-            <Link to="/eventos/nuevo"><Plus className="h-4 w-4" /> Nuevo Evento</Link>
+            <Link to="/eventos/nuevo">
+              <Plus className="h-4 w-4" /> Nuevo Evento
+            </Link>
           </Button>
         }
       />
@@ -52,12 +61,22 @@ function EventosList() {
                 {ordenados.map((e) => (
                   <TableRow key={e.id}>
                     <TableCell className="font-medium">{e.nombre}</TableCell>
-                    <TableCell className="hidden md:table-cell text-sm text-muted-foreground">{e.cliente}</TableCell>
+                    <TableCell className="hidden md:table-cell text-sm text-muted-foreground">
+                      {e.cliente}
+                    </TableCell>
                     <TableCell>{formatDate(e.fecha)}</TableCell>
-                    <TableCell className="hidden lg:table-cell text-sm text-muted-foreground">{e.lugar}</TableCell>
-                    <TableCell className="hidden sm:table-cell"><Badge variant="secondary">{e.tipo}</Badge></TableCell>
+                    <TableCell className="hidden lg:table-cell text-sm text-muted-foreground">
+                      {e.lugar}
+                    </TableCell>
+                    <TableCell className="hidden sm:table-cell">
+                      <Badge variant="secondary">{e.tipo}</Badge>
+                    </TableCell>
                     <TableCell className="hidden sm:table-cell">{e.invitados}</TableCell>
-                    <TableCell><Badge variant="outline" className={statusVariant[e.estado]}>{e.estado}</Badge></TableCell>
+                    <TableCell>
+                      <Badge variant="outline" className={statusVariant[e.estado]}>
+                        {e.estado}
+                      </Badge>
+                    </TableCell>
                     <TableCell className="text-right font-semibold">{formatUSD(e.total)}</TableCell>
                   </TableRow>
                 ))}

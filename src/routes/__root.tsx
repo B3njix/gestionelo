@@ -16,14 +16,9 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { Toaster } from "@/components/ui/sonner";
 import { Input } from "@/components/ui/input";
-import { Search, Bell, LogOut, ChevronDown } from "lucide-react";
+import { Search } from "lucide-react";
+import { ThemeProvider } from "@/hooks/use-theme";
 import { AuthProvider, useAuth, useRequireAuth } from "@/hooks/use-auth";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 function NotFoundComponent() {
   return (
@@ -159,9 +154,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="es">
+    <html lang="es" suppressHydrationWarning>
       <head>
         <HeadContent />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var t=localStorage.getItem("gestionelo-theme");if(t==="dark"||(t!=="light"&&window.matchMedia("(prefers-color-scheme:dark)").matches)){document.documentElement.classList.add("dark")}})()`,
+          }}
+        />
       </head>
       <body>
         {children}
@@ -176,9 +176,11 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <AuthShell />
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <AuthShell />
+        </AuthProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }
@@ -199,8 +201,7 @@ function AuthShell() {
 }
 
 function AuthenticatedShell() {
-  const { user, loading, signOut } = useAuth();
-  const router = useRouter();
+  const { loading } = useAuth();
   const { user: authUser, loading: authLoading } = useRequireAuth();
 
   if (authLoading || loading) {
@@ -215,10 +216,16 @@ function AuthenticatedShell() {
     return null;
   }
 
-  const initials = user?.email ? user.email.substring(0, 2).toUpperCase() : "SA";
+  const sidebarDefaultOpen = (() => {
+    try {
+      return localStorage.getItem("sidebar-pinned") === "true";
+    } catch {
+      return false;
+    }
+  })();
 
   return (
-    <SidebarProvider>
+    <SidebarProvider defaultOpen={sidebarDefaultOpen}>
       <div className="flex min-h-screen w-full bg-background">
         <AppSidebar />
         <div className="flex flex-1 flex-col min-w-0">
@@ -227,37 +234,6 @@ function AuthenticatedShell() {
             <div className="relative hidden flex-1 max-w-md md:block">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input placeholder="Buscar clientes, eventos, productos..." className="h-9 pl-9" />
-            </div>
-            <div className="ml-auto flex items-center gap-2">
-              <button className="relative inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground">
-                <Bell className="h-4 w-4" />
-                <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-gold" />
-              </button>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <button className="flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm hover:bg-accent">
-                    <div className="h-8 w-8 rounded-full bg-accent text-xs font-semibold text-accent-foreground flex items-center justify-center">
-                      {initials}
-                    </div>
-                    <span className="hidden text-sm font-medium md:inline-block max-w-[120px] truncate">
-                      {user?.user_metadata?.name ?? user?.email ?? "Usuario"}
-                    </span>
-                    <ChevronDown className="hidden h-3.5 w-3.5 md:inline-block" />
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48">
-                  <DropdownMenuItem
-                    onClick={() => {
-                      signOut();
-                      router.navigate({ to: "/login" });
-                    }}
-                    className="text-destructive"
-                  >
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Cerrar Sesión
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
             </div>
           </header>
           <main className="flex-1">

@@ -1,8 +1,14 @@
 import type { ReactNode } from "react";
 
 export function PageHeader({
-  title, description, actions,
-}: { title: string; description?: string; actions?: ReactNode }) {
+  title,
+  description,
+  actions,
+}: {
+  title: string;
+  description?: string;
+  actions?: ReactNode;
+}) {
   return (
     <div className="flex flex-col gap-3 border-b bg-card/40 px-4 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
       <div className="space-y-1">
