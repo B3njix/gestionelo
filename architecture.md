@@ -81,8 +81,7 @@ Error en SSR  →  h3 lo traga (solo devuelve 500 genérico)
                     └── server.ts: consumeLastCapturedError()
                          devuelve stack trace real en respuesta de error
 
-Error en cliente  →  lovable-error-reporting.ts
-                     window.__lovableEvents.captureException()
+Error en cliente  →  errorComponent en __root.tsx (error boundary de TanStack Router)
 
 Error boundary  →  __root.tsx: errorComponent
                    muestra página de error con retry + go home

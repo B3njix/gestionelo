@@ -1,10 +1,9 @@
 # Reglas del Proyecto
 
-## Restricciones de Git (Lovable.dev)
+## Restricciones de Git
 
 - **NO** hacer force push, rebase, amend ni squash de commits ya publicados.
 - Mantener el branch `main` en estado funcional (compila y arranca).
-- Commits se sincronizan automáticamente con Lovable.dev.
 
 ## Convenciones de código
 

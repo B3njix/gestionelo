@@ -7,7 +7,7 @@
 3. **architecture.md** — Capas, flujos, rutas, feature flags.
 4. **decisions.md** — Decisiones técnicas históricas y trade-offs.
 5. **todos.md** — Deuda técnica y roadmap.
-6. **AGENTS.md** — Reglas de Lovable.dev (no reescribir historia git).
+6. **AGENTS.md** — Reglas de proyecto (no reescribir historia git).
 
 ## Comportamiento esperado
 

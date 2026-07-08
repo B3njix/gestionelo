@@ -83,13 +83,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
   }, [user]);
 
-  const isSuperAdmin = roles.some(
-    (r) => r.role_name === "super_admin" && r.branch_id === null,
-  );
+  const isSuperAdmin = roles.some((r) => r.role_name === "super_admin" && r.branch_id === null);
 
-  const tenantId = isSuperAdmin
-    ? null
-    : ((user?.user_metadata?.tenant_id as string) ?? null);
+  const tenantId = isSuperAdmin ? null : ((user?.user_metadata?.tenant_id as string) ?? null);
 
   const signOut = async () => {
     await supabase.auth.signOut();
@@ -100,7 +96,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext value={{ session, user, loading: loading || fetchingRoles, tenantId, isSuperAdmin, roles, signOut }}>{children}</AuthContext>
+    <AuthContext
+      value={{
+        session,
+        user,
+        loading: loading || fetchingRoles,
+        tenantId,
+        isSuperAdmin,
+        roles,
+        signOut,
+      }}
+    >
+      {children}
+    </AuthContext>
   );
 }
 

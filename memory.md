@@ -28,7 +28,7 @@
 | Auth SSR         | @supabase/ssr (cookie utilities)                      | ^0.4.0+           |
 | Cliente Supabase | @supabase/supabase-js                                 | ^2.x              |
 | Lenguaje         | TypeScript strict (ES2022, bundler resolution)        | ^5.8.3            |
-| Despliegue       | Lovable.dev → Cloudflare Workers                      | —                 |
+| Despliegue       | Vercel (Nitro preset vercel)                          | —                 |
 
 ## Convenciones
 

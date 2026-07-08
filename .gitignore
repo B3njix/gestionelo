@@ -24,6 +24,9 @@ dist-ssr
 .env
 .env.local
 
+# Vercel build output
+.vercel/
+
 # Supabase Edge Functions artifacts
 supabase/.temp/
 supabase/**/node_modules/

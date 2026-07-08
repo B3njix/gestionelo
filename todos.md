@@ -50,7 +50,7 @@
 ### P3 - Infraestructura
 
 - [ ] **CI/CD:** GitHub Actions para lint, typecheck, build, deploy.
-- [ ] **Monitoreo de errores:** Sentry/LogRocket (hoy solo Lovable.dev).
+- [ ] **Monitoreo de errores:** Sentry/LogRocket.
 - [ ] **Feature flags:** Sistema de toggles para deploy progresivo.
 - [ ] **PWA:** Service worker para offline-first.
 

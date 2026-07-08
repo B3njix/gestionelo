@@ -4,7 +4,7 @@
 
 **Fecha:** Junio 2026 (fundación del proyecto).
 **Decisión:** TanStack Start sobre Next.js, Remix o SvelteKit.
-**Motivo:** El proyecto se inicializó desde el template `tanstack_start_ts_2026-06-17` de Lovable.dev. TanStack Start ofrece SSR con Nitro, file-based routing integrado, y React Query como primera opción para fetching.
+**Motivo:** TanStack Start ofrece SSR con Nitro, file-based routing integrado, y React Query como primera opción para fetching.
 **Trade-off:** Menos ecosistema y ejemplos que Next.js, pero mejor integración con React Query y menor overhead que App Router.
 
 ## Librería de componentes: shadcn/ui (New York style)
@@ -80,7 +80,7 @@
 ## Package manager: Bun
 
 **Decisión:** Bun como gestor primario, npm como fallback.
-**Motivo:** Bun ofrece instalación más rápida y lockfile binario. npm lockfile se mantiene para compatibilidad con Lovable.dev y entornos que no soportan Bun.
+**Motivo:** Bun ofrece instalación más rápida y lockfile binario. npm lockfile se mantiene para entornos que no soportan Bun.
 **Trade-off:** Doble lockfile que puede desincronizarse.
 
 ## Gráficos: recharts
@@ -94,8 +94,8 @@
 **Decisión:** react-hook-form + zod desde el inicio. Activado en login con `zodResolver`.
 **Motivo:** Validación tipada con zod, integración con TypeScript. El formulario de `eventos.nuevo.tsx` aún usa `useState` manual (pendiente migrar).
 
-## Despliegue: Lovable.dev → Cloudflare Workers
+## Despliegue: Vercel (SSR con Nitro)
 
-**Decisión:** Usar Lovable.dev como plataforma de despliegue con target Cloudflare Workers.
-**Motivo:** Configuración automática desde el template. Nitro genera el output para Cloudflare.
-**Trade-off:** Vendor lock-in con Lovable.dev. La configuración de deploy no es portable sin modificar `vite.config.ts`.
+**Decisión:** Usar Vercel como plataforma de despliegue con Nitro preset `vercel`.
+**Motivo:** Vercel ofrece SSR serverless con soporte nativo para Nitro, cold starts rápidos y CI/CD integrado con GitHub.
+**Trade-off:** Las funciones serverless tienen límite de 30s de ejecución. Costos pueden escalar con tráfico.

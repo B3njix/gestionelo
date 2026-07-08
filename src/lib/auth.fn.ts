@@ -44,9 +44,7 @@ export const loginFn = createServerFn({ method: "POST" })
         branch_id: r.branch_id,
       })) ?? [];
 
-    const isSuperAdmin = roles.some(
-      (r) => r.role_name === "super_admin" && r.branch_id === null,
-    );
+    const isSuperAdmin = roles.some((r) => r.role_name === "super_admin" && r.branch_id === null);
 
     const tenantId = authData.user.user_metadata?.tenant_id as string | undefined;
 

@@ -45,7 +45,7 @@
 - [ ] Setup de staging separado de producción.
 - [ ] Monitoreo de errores (Sentry/LogRocket).
 - [ ] Optimización de bundle (tree-shaking, code splitting).
-- **Riesgo:** Configuración de deploy específica de Lovable.dev/Cloudflare. **Mitigación:** Documentar pasos de migración a otros providers.
+- **Riesgo:** Configuración de deploy específica de Vercel/Nitro. **Mitigación:** Documentar pasos de migración a otros providers.
 
 ## Legacy systems a deprecar
 
@@ -54,7 +54,7 @@
 | `mock-data.ts`        | Activo (fuente única de datos) | Deprecar en Fase 2, eliminar al finalizar Fase 2 |
 | `@hookform/resolvers` | Instalado, sin uso             | Activar en Fase 1 (refactor forms)               |
 | `react-hook-form`     | Instalado, sin uso             | Activar en Fase 1 (refactor forms)               |
-| Lovable.dev hosting   | Activo (producción)            | Evaluar migración a proveedor propio en Fase 4   |
+| Vercel hosting        | Activo (producción)            | —                                                |
 
 ## Riesgos de transición
 
